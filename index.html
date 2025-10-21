@@ -72,7 +72,7 @@
                     <a href="#soins" class="text-gray-700 hover:text-plum transition-colors">Nos Soins</a>
                     <a href="#tarifs" class="text-gray-700 hover:text-plum transition-colors">Tarifs</a>
                     <a href="#contact" class="text-gray-700 hover:text-plum transition-colors">Contact</a>
-                    <a href="#" class="bg-teal text-white px-4 py-2 rounded-full hover:bg-teal/90 transition-colors">Rendez-vous</a>
+                    <a href="#" id="bouton-rdv-nav" class="bg-teal text-white px-4 py-2 rounded-full hover:bg-teal/90 transition-colors">Rendez-vous</a>
                 </div>
                 <div class="md:hidden">
                     <button id="menu-toggle" class="text-gray-700 hover:text-plum">
@@ -96,7 +96,7 @@
                 Institut de Beauté Les Rièges – Montpellier
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-in-delay-2">
-                <a href="#" class="bg-teal text-white px-8 py-4 rounded-full font-medium hover:bg-teal/90 transition-all hover:scale-105">
+                <a href="#" id="bouton-rdv-hero" class="bg-teal text-white px-8 py-4 rounded-full font-medium hover:bg-teal/90 transition-all hover:scale-105" data-state="idle">
                     Prendre rendez-vous
                 </a>
                 <a href="#soins" class="border-2 border-plum text-plum px-8 py-4 rounded-full font-medium hover:bg-plum hover:text-white transition-all">
@@ -124,7 +124,7 @@
                 </div>
                 <div class="relative">
                     <div class="aspect-square rounded-3xl overflow-hidden shadow-lg">
-                        <img src="/public/isabelle.svg" alt="Isabelle, esthéticienne de l'Institut de Beauté Les Rièges" 
+                        <img src="isabelle.svg" alt="Isabelle, esthéticienne de l'Institut de Beauté Les Rièges" 
                              class="w-full h-full object-cover object-center">
                     </div>
                 </div>
@@ -222,7 +222,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
                     <div class="aspect-[4/3] overflow-hidden">
-                        <img src="/public/kobido.jpg" alt="Massage Kobido - Lifting facial naturel japonais" 
+                        <img src="kobido.jpg" alt="Massage Kobido - Lifting facial naturel japonais" 
                              class="w-full h-full object-cover">
                     </div>
                     <div class="p-8">
@@ -240,7 +240,7 @@
                 
                 <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
                     <div class="aspect-[4/3] overflow-hidden">
-                        <img src="/public/dfef.jpg" alt="Rituel Féminin Sacré - Soin énergisant aux pierres de quartz rose" 
+                        <img src="dfef.jpg" alt="Rituel Féminin Sacré - Soin énergisant aux pierres de quartz rose" 
                              class="w-full h-full object-cover">
                     </div>
                     <div class="p-8">
@@ -263,7 +263,7 @@
     <section class="py-20 bg-cream">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h3 class="text-4xl font-playfair font-bold text-plum mb-4">Offres Spéciales</h3>
+                <h3 class="text-4xl font-playfair font-bold mb-4">Offres Spéciales</h3>
                 <p class="text-xl text-gray-700">Profitez de nos promotions exclusives</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -389,7 +389,7 @@
                     <div class="space-y-4">
                         <h5 class="text-xl font-playfair font-bold text-plum">Accès</h5>
                         <div class="flex flex-col sm:flex-row gap-4">
-                            <a href="#" class="bg-teal text-white px-6 py-3 rounded-full font-medium hover:bg-teal/90 transition-colors text-center">
+                            <a href="#" id="bouton-appeler" class="bg-teal text-white px-6 py-3 rounded-full font-medium hover:bg-teal/90 transition-colors text-center">
                                 Appeler
                             </a>
                             <a href="#" class="border-2 border-plum text-plum px-6 py-3 rounded-full font-medium hover:bg-plum hover:text-white transition-colors text-center">
@@ -471,16 +471,17 @@
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
                 const href = this.getAttribute('href');
                 
-                // Skip if href is just '#' (empty hash)
+                // Skip if href is just '#' to prevent default behavior on our Vapi buttons
                 if (href === '#') {
+                    e.preventDefault();
                     return;
                 }
                 
                 const target = document.querySelector(href);
                 if (target) {
+                    e.preventDefault();
                     target.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
@@ -499,7 +500,7 @@
                 <a href="#soins" class="block text-gray-700 hover:text-plum transition-colors">Nos Soins</a>
                 <a href="#tarifs" class="block text-gray-700 hover:text-plum transition-colors">Tarifs</a>
                 <a href="#contact" class="block text-gray-700 hover:text-plum transition-colors">Contact</a>
-                <a href="#" class="block bg-teal text-white px-4 py-2 rounded-full text-center hover:bg-teal/90 transition-colors">Rendez-vous</a>
+                <a href="#" id="bouton-rdv-mobile" class="block bg-teal text-white px-4 py-2 rounded-full text-center hover:bg-teal/90 transition-colors">Rendez-vous</a>
             </div>
         `;
         document.body.appendChild(mobileMenu);
@@ -552,5 +553,113 @@
         `;
         document.head.appendChild(style);
     </script>
+  
+    <!-- ==== DÉBUT DE L'INTÉGRATION VAPI (ESM) ==== -->
+    <script type="module">
+      import Vapi from 'https://esm.sh/@vapi-ai/web';
+
+      // Identifiants Vapi
+      const PUBLIC_KEY   = '53845ee0-60ca-4269-bcdb-20ac91f1bb5d';
+      const ASSISTANT_ID = '23663a9c-eda5-46e2-be8b-b49a8a3a2a1f';
+
+      // Init SDK
+      const vapi = new Vapi(PUBLIC_KEY);
+
+      // Références Hero
+      const heroSection = document.querySelector('#accueil');
+      const heroBtn     = document.getElementById('bouton-rdv-hero');
+
+      // État & styles
+      const HERO_LABEL_DEFAULT = heroBtn ? (heroBtn.textContent.trim() || 'Prendre rendez-vous') : 'Prendre rendez-vous';
+      const HERO_CLASS_DEFAULT = heroBtn ? heroBtn.className : '';
+      const HERO_CLASS_HANGUP  = 'bg-red-600 text-white px-8 py-4 rounded-full font-medium hover:bg-red-700 transition-all hover:scale-105';
+
+      let callActive = false;
+      let starting   = false;
+
+      function scrollToHero() {
+        if (!heroSection) return;
+        heroSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      function setHeroToHangup() {
+        if (!heroBtn) return;
+        heroBtn.textContent = 'Raccrocher';
+        heroBtn.className   = HERO_CLASS_HANGUP;
+        heroBtn.setAttribute('data-state', 'calling');
+      }
+      function setHeroToDefault() {
+        if (!heroBtn) return;
+        heroBtn.textContent = HERO_LABEL_DEFAULT;
+        heroBtn.className   = HERO_CLASS_DEFAULT;
+        heroBtn.setAttribute('data-state', 'idle');
+      }
+
+      async function startCall(e) {
+        if (e) e.preventDefault();
+        if (callActive || starting) return;
+        starting = true;
+        try {
+          await vapi.start(ASSISTANT_ID);
+          scrollToHero();
+        } catch (err) {
+          console.error('[Vapi] start error:', err);
+          starting = false;
+        }
+      }
+
+      async function stopCall(e) {
+        if (e) e.preventDefault();
+        try {
+          await vapi.stop();
+        } catch (err) {
+          console.warn('[Vapi] stop error:', err);
+          callActive = false;
+          setHeroToDefault();
+        }
+      }
+
+      // Événements SDK
+      vapi.on('call-start', () => {
+        callActive = true;
+        starting   = false;
+        setHeroToHangup();
+      });
+      vapi.on('call-end', () => {
+        callActive = false;
+        starting   = false;
+        setHeroToDefault();
+      });
+      vapi.on('error', (e) => {
+        console.error('[Vapi] error:', e);
+        if (starting || callActive) {
+          callActive = false;
+          starting   = false;
+          setHeroToDefault();
+        }
+      });
+
+      // Sélectionne tous les boutons qui doivent démarrer l'appel
+      const attrButtons = Array.from(document.querySelectorAll('[data-call="vapi"]'));
+      const idButtons   = Array.from(document.querySelectorAll('[id^="bouton-appeler"]'));
+      const textButtons = Array.from(document.querySelectorAll('a, button'))
+        .filter(el => (el.textContent || '').trim().toLowerCase() === 'appeler');
+      const knownIds    = ['bouton-rdv-nav', 'bouton-rdv-mobile'];
+      const knownButtons= knownIds.map(id => document.getElementById(id)).filter(Boolean);
+
+      const allCallButtons = Array.from(new Set([...attrButtons, ...idButtons, ...textButtons, ...knownButtons]));
+      allCallButtons.forEach(btn => btn.addEventListener('click', startCall));
+
+      // Bouton hero : toggle call / hangup
+      if (heroBtn) {
+        heroBtn.addEventListener('click', (e) => {
+          const state = heroBtn.getAttribute('data-state');
+          if (state === 'calling') return stopCall(e);
+          return startCall(e);
+        });
+        setHeroToDefault();
+      }
+    </script>
+    <!-- ==== FIN INTÉGRATION VAPI ==== -->
+
 </body>
 </html>
